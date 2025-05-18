@@ -1551,6 +1551,11 @@ while [ $# -gt 0 ]; do
             player="vlc"
             shift
             ;;
+        --iina)
+            player="iina"
+            shift
+            ;;
+
         -w | --website)
             provider="$2"
             if [ -z "$provider" ]; then
