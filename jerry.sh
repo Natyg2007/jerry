@@ -1222,7 +1222,10 @@ play_video() {
         iina)
             opts=""
             [ "$provider" = "allanime" ] && opts="$opts --mpv-http-header-fields-append=Referer:https://allanime.day/"
-            [ -n "$subs_links" ] && opts="$opts --mpv-sub-file=$subs_links"
+            if [ -n "$subs_links" ]; then
+                opts="$opts --mpv-sub-file=$subs_links"
+            fi
+            echo "Launching IINA: iina --no-stdin --keep-running --mpv-force-media-title='${title}' $opts $video_link"
             iina --no-stdin --keep-running --mpv-force-media-title="${title}" $opts "$video_link" >/dev/null 2>&1 &
             ;;
 
