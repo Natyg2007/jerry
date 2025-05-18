@@ -1219,7 +1219,13 @@ play_video() {
             ;;
         *yncpla*) syncplay "$video_link" -- --force-media-title="${title}" >/dev/null 2>&1 ;;
         vlc) vlc --play-and-exit --meta-title="${title}" "$video_link" >/dev/null 2>&1 & ;;
-        iina) iina --no-stdin --keep-running --mpv-force-media-title="${title}" "$video_link" >/dev/null 2>&1 & ;;
+        iina)
+            opts=""
+            [ "$provider" = "allanime" ] && opts="$opts --mpv-http-header-fields-append=Referer:https://allanime.day/"
+            [ -n "$subs_links" ] && opts="$opts --mpv-sub-file=$subs_links"
+            iina --no-stdin --keep-running --mpv-force-media-title="${title}" $opts "$video_link" >/dev/null 2>&1 &
+            ;;
+
     esac
     if [ "$player" != "mpv" ] && [ "$player" != "mpv.exe" ]; then
         completed_episode=$(printf "Yes\nNo" | launcher "Have you completed watching this episode? [Y/n] ")
